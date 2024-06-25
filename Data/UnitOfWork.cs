@@ -78,6 +78,13 @@ namespace Data
             get { return _voucher ??= new VoucherRepository(_context); }
         }
 
+        public IProductLineRepository _productLine = null!;
+
+        public IProductLineRepository ProductLine
+        {
+            get { return _productLine ??= new ProductLineRepository(_context); }
+        }
+
         public void BeginTransaction()
         {
             _transaction = _context.Database.BeginTransaction();

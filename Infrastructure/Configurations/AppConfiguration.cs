@@ -18,6 +18,7 @@ namespace Infrastructure.Configurations
             services.AddScoped<ICustomerService, CustomerService>();
             services.AddScoped<IOrderService, OrderService>();
             services.AddScoped<IVoucherService, VoucherService>();
+            services.AddScoped<IProductLineService, ProductLineService>();
             
             services.AddTransient<IUnitOfWork, UnitOfWork>();
         }

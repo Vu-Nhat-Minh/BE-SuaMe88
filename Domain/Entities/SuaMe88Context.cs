@@ -33,6 +33,8 @@ public partial class SuaMe88Context : DbContext
 
     public virtual DbSet<ProductCategory> ProductCategories { get; set; }
 
+    public virtual DbSet<ProductLine> ProductLines { get; set; }
+
     public virtual DbSet<Transaction> Transactions { get; set; }
 
     public virtual DbSet<Voucher> Vouchers { get; set; }
@@ -175,7 +177,6 @@ public partial class SuaMe88Context : DbContext
 
             entity.Property(e => e.Id).ValueGeneratedNever();
             entity.Property(e => e.Brand).HasMaxLength(256);
-            entity.Property(e => e.ExpireAt).HasColumnType("datetime");
             entity.Property(e => e.MadeIn).HasMaxLength(256);
             entity.Property(e => e.Name).HasMaxLength(256);
             entity.Property(e => e.Origin).HasMaxLength(256);
@@ -199,6 +200,24 @@ public partial class SuaMe88Context : DbContext
                 .HasForeignKey(d => d.ProductId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__ProductCa__Produ__656C112C");
+        });
+
+        modelBuilder.Entity<ProductLine>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__ProductL__3214EC070DC00179");
+
+            entity.ToTable("ProductLine");
+
+            entity.Property(e => e.Id).ValueGeneratedNever();
+            entity.Property(e => e.ExpiredAt).HasColumnType("datetime");
+            entity.Property(e => e.ImportDate)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
+
+            entity.HasOne(d => d.Product).WithMany(p => p.ProductLines)
+                .HasForeignKey(d => d.ProductId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__ProductLi__Produ__02FC7413");
         });
 
         modelBuilder.Entity<Transaction>(entity =>

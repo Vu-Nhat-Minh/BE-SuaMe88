@@ -27,13 +27,11 @@ public partial class Product
 
     public int? PromotionPrice { get; set; }
 
-    public DateTime ExpireAt { get; set; }
-
-    public int Quantity { get; set; }
-
     public string Status { get; set; } = null!;
 
     public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
 
     public virtual ICollection<ProductCategory> ProductCategories { get; set; } = new List<ProductCategory>();
+
+    public virtual ICollection<ProductLine> ProductLines { get; set; } = new List<ProductLine>();
 }

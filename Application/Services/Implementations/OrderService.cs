@@ -208,31 +208,32 @@ namespace Application.Services.Implementations
             }
         }
 
-        private async Task CalculateProductQuantity(Order order)
-        {
-            try
-            {
-                var products = new List<Product>();
-                foreach (var item in order.OrderDetails)
-                {
-                    var product = await _productRepository.Where(x => x.Id.Equals(item.ProductId)).FirstOrDefaultAsync();
-                    if (product == null)
-                    {
-                        continue;
-                    }
-                    product.Quantity = product.Quantity - item.Quantity;
-                    products.Add(product);
-                }
-                // Update list product da duoc chinh sua tren code
-                _productRepository.UpdateRange(products);
+        //Old product update
+        //private async Task CalculateProductQuantity(Order order)
+        //{
+        //    try
+        //    {
+        //        var products = new List<Product>();
+        //        foreach (var item in order.OrderDetails)
+        //        {
+        //            var product = await _productRepository.Where(x => x.Id.Equals(item.ProductId)).FirstOrDefaultAsync();
+        //            if (product == null)
+        //            {
+        //                continue;
+        //            }
+        //            product.Quantity = product.Quantity - item.Quantity;
+        //            products.Add(product);
+        //        }
+        //        // Update list product da duoc chinh sua tren code
+        //        _productRepository.UpdateRange(products);
 
-                // Luu thay doi xuong database
-                await _unitOfWork.SaveChangesAsync();
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
+        //        // Luu thay doi xuong database
+        //        await _unitOfWork.SaveChangesAsync();
+        //    }
+        //    catch (Exception)
+        //    {
+        //        throw;
+        //    }
+        //}
     }
 }

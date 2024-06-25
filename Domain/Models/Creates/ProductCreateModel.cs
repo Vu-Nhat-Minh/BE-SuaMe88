@@ -23,8 +23,6 @@ namespace Domain.Models.Creates
 
         public int? PromotionPrice { get; set; }
 
-        public DateTime ExpireAt { get; set; }
-
         public int Quantity { get; set; }
 
         public ICollection<ProductCategoryCreateModel> ProductCategories { get; set; } = new List<ProductCategoryCreateModel>();

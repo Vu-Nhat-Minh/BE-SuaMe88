@@ -49,6 +49,12 @@ namespace Application.Mappings
             CreateMap<ProductUpdateModel, Product>()
                 .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
 
+            // Product Category
+            CreateMap<ProductCategory, ProductCategoryViewModel>();
+
+            //ProductLine
+            CreateMap<ProductLineCreateModel, ProductLine>();
+
             // Order
             CreateMap<Order, OrderViewModel>();
             CreateMap<OrderCreateModel, Order>()
@@ -75,9 +81,6 @@ namespace Application.Mappings
 
             // OrderDetail
             CreateMap<OrderDetail, OrderDetailViewModel>();
-
-            // Product Category
-            CreateMap<ProductCategory, ProductCategoryViewModel>();
 
             //Voucher
             CreateMap<VoucherCreateModel, Voucher>()
