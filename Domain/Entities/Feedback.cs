@@ -7,13 +7,13 @@ public partial class Feedback
 {
     public Guid Id { get; set; }
 
-    public Guid CustomerId { get; set; }
-
     public Guid OrderId { get; set; }
 
-    public string Content { get; set; } = null!;
+    public Guid CustomerId { get; set; }
 
-    public int RateStar { get; set; }
+    public string? Message { get; set; }
+
+    public int Star { get; set; }
 
     public DateTime CreateAt { get; set; }
 

@@ -11,9 +11,9 @@ public partial class OrderDetail
 
     public Guid ProductId { get; set; }
 
-    public double Price { get; set; }
-
     public int Quantity { get; set; }
+
+    public int Price { get; set; }
 
     public virtual Order Order { get; set; } = null!;
 

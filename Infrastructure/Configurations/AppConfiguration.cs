@@ -1,4 +1,8 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Application.Services.Implementations;
+using Application.Services.Interfaces;
+using Data;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 
 namespace Infrastructure.Configurations
@@ -7,16 +11,23 @@ namespace Infrastructure.Configurations
     {
         public static void AddDependenceInjection(this IServiceCollection services)
         {
-            //services.AddScoped<IAuthService, AuthService>();
-
-            //services.AddTransient<IUnitOfWork, UnitOfWork>();
+            // Service life time DI
+            services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<IProductService, ProductService>();
+            services.AddScoped<ICustomerService, CustomerService>();
+            services.AddScoped<IOrderService, OrderService>();
+            services.AddScoped<IVoucherService, VoucherService>();
+            
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
         }
+
         public static void AddSwagger(this IServiceCollection services)
         {
-                services.AddSwaggerGen(c =>
+            services.AddSwaggerGen(c =>
             {
                 c.EnableAnnotations();
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "ASP.Net 8.0 - SuaMe88", Description = "APIs Service", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "ASP.Net 8.0 - Happy Milk 88", Description = "APIs Service", Version = "v1" });
                 c.DescribeAllParametersInCamelCase();
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
@@ -46,9 +57,9 @@ namespace Infrastructure.Configurations
             });
         }
 
-        //public static void UseJwt(this IApplicationBuilder app)
-        //{
-        //    app.UseMiddleware<JwtMiddleware>();
-        //}
+        public static void UseJwt(this IApplicationBuilder app)
+        {
+            app.UseMiddleware<JwtMiddleware>();
+        }
     }
 }

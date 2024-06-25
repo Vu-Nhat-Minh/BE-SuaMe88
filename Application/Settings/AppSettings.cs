@@ -8,5 +8,7 @@ namespace Application.Settings
 {
     public class AppSettings
     {
+        // Example setting for apps (map from appsetting.json)
+        public string Secret { get; set; } = null!;
     }
 }

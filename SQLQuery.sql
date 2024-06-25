@@ -1,0 +1,338 @@
+USE [master]
+GO
+/****** Object:  Database [HappyMilk]    Script Date: 6/6/2024 8:21:11 PM ******/
+CREATE DATABASE [HappyMilk]
+GO
+ALTER DATABASE [HappyMilk] SET ANSI_NULL_DEFAULT OFF 
+GO
+ALTER DATABASE [HappyMilk] SET ANSI_NULLS OFF 
+GO
+ALTER DATABASE [HappyMilk] SET ANSI_PADDING OFF 
+GO
+ALTER DATABASE [HappyMilk] SET ANSI_WARNINGS OFF 
+GO
+ALTER DATABASE [HappyMilk] SET ARITHABORT OFF 
+GO
+ALTER DATABASE [HappyMilk] SET AUTO_CLOSE ON 
+GO
+ALTER DATABASE [HappyMilk] SET AUTO_SHRINK OFF 
+GO
+ALTER DATABASE [HappyMilk] SET AUTO_UPDATE_STATISTICS ON 
+GO
+ALTER DATABASE [HappyMilk] SET CURSOR_CLOSE_ON_COMMIT OFF 
+GO
+ALTER DATABASE [HappyMilk] SET CURSOR_DEFAULT  GLOBAL 
+GO
+ALTER DATABASE [HappyMilk] SET CONCAT_NULL_YIELDS_NULL OFF 
+GO
+ALTER DATABASE [HappyMilk] SET NUMERIC_ROUNDABORT OFF 
+GO
+ALTER DATABASE [HappyMilk] SET QUOTED_IDENTIFIER OFF 
+GO
+ALTER DATABASE [HappyMilk] SET RECURSIVE_TRIGGERS OFF 
+GO
+ALTER DATABASE [HappyMilk] SET  ENABLE_BROKER 
+GO
+ALTER DATABASE [HappyMilk] SET AUTO_UPDATE_STATISTICS_ASYNC OFF 
+GO
+ALTER DATABASE [HappyMilk] SET DATE_CORRELATION_OPTIMIZATION OFF 
+GO
+ALTER DATABASE [HappyMilk] SET TRUSTWORTHY OFF 
+GO
+ALTER DATABASE [HappyMilk] SET ALLOW_SNAPSHOT_ISOLATION OFF 
+GO
+ALTER DATABASE [HappyMilk] SET PARAMETERIZATION SIMPLE 
+GO
+ALTER DATABASE [HappyMilk] SET READ_COMMITTED_SNAPSHOT OFF 
+GO
+ALTER DATABASE [HappyMilk] SET HONOR_BROKER_PRIORITY OFF 
+GO
+ALTER DATABASE [HappyMilk] SET RECOVERY SIMPLE 
+GO
+ALTER DATABASE [HappyMilk] SET  MULTI_USER 
+GO
+ALTER DATABASE [HappyMilk] SET PAGE_VERIFY CHECKSUM  
+GO
+ALTER DATABASE [HappyMilk] SET DB_CHAINING OFF 
+GO
+ALTER DATABASE [HappyMilk] SET FILESTREAM( NON_TRANSACTED_ACCESS = OFF ) 
+GO
+ALTER DATABASE [HappyMilk] SET TARGET_RECOVERY_TIME = 60 SECONDS 
+GO
+ALTER DATABASE [HappyMilk] SET DELAYED_DURABILITY = DISABLED 
+GO
+ALTER DATABASE [HappyMilk] SET ACCELERATED_DATABASE_RECOVERY = OFF  
+GO
+ALTER DATABASE [HappyMilk] SET QUERY_STORE = ON
+GO
+ALTER DATABASE [HappyMilk] SET QUERY_STORE (OPERATION_MODE = READ_WRITE, CLEANUP_POLICY = (STALE_QUERY_THRESHOLD_DAYS = 30), DATA_FLUSH_INTERVAL_SECONDS = 900, INTERVAL_LENGTH_MINUTES = 60, MAX_STORAGE_SIZE_MB = 1000, QUERY_CAPTURE_MODE = AUTO, SIZE_BASED_CLEANUP_MODE = AUTO, MAX_PLANS_PER_QUERY = 200, WAIT_STATS_CAPTURE_MODE = ON)
+GO
+USE [HappyMilk]
+GO
+/****** Object:  Table [dbo].[Admin]    Script Date: 6/6/2024 8:21:11 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Admin](
+	[Id] [uniqueidentifier] NOT NULL,
+	[Username] [nvarchar](256) NOT NULL,
+	[Password] [nvarchar](256) NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Cart]    Script Date: 6/6/2024 8:21:11 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Cart](
+	[Id] [uniqueidentifier] NOT NULL,
+	[CustomerId] [uniqueidentifier] NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[CartItem]    Script Date: 6/6/2024 8:21:11 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[CartItem](
+	[Id] [uniqueidentifier] NOT NULL,
+	[CartId] [uniqueidentifier] NOT NULL,
+	[ProductId] [uniqueidentifier] NOT NULL,
+	[Quantity] [int] NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Category]    Script Date: 6/6/2024 8:21:11 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Category](
+	[Id] [uniqueidentifier] NOT NULL,
+	[Name] [nvarchar](256) NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Customer]    Script Date: 6/6/2024 8:21:11 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Customer](
+	[Id] [uniqueidentifier] NOT NULL,
+	[Username] [nvarchar](256) NOT NULL,
+	[Password] [nvarchar](256) NOT NULL,
+	[Name] [nvarchar](256) NOT NULL,
+	[Phone] [nvarchar](256) NULL,
+	[Address] [nvarchar](max) NULL,
+	[Point] [int] NOT NULL,
+	[Status] [nvarchar](256) NOT NULL,
+	[CreateAt] [datetime] NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Feedback]    Script Date: 6/6/2024 8:21:11 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Feedback](
+	[Id] [uniqueidentifier] NOT NULL,
+	[OrderId] [uniqueidentifier] NOT NULL,
+	[CustomerId] [uniqueidentifier] NOT NULL,
+	[Message] [nvarchar](max) NULL,
+	[Star] [int] NOT NULL,
+	[CreateAt] [datetime] NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Order]    Script Date: 6/6/2024 8:21:11 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Order](
+	[Id] [uniqueidentifier] NOT NULL,
+	[CustomerId] [uniqueidentifier] NOT NULL,
+	[Amount] [int] NOT NULL,
+	[Receiver] [nvarchar](256) NOT NULL,
+	[Address] [nvarchar](max) NOT NULL,
+	[Phone] [nvarchar](256) NOT NULL,
+	[PaymentMethod] [nvarchar](256) NOT NULL,
+	[IsPayment] [bit] NOT NULL,
+	[Status] [nvarchar](256) NOT NULL,
+	[CreateAt] [datetime] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[OrderDetail]    Script Date: 6/6/2024 8:21:11 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[OrderDetail](
+	[Id] [uniqueidentifier] NOT NULL,
+	[OrderId] [uniqueidentifier] NOT NULL,
+	[ProductId] [uniqueidentifier] NOT NULL,
+	[Quantity] [int] NOT NULL,
+	[Price] [int] NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Product]    Script Date: 6/6/2024 8:21:11 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Product](
+	[Id] [uniqueidentifier] NOT NULL,
+	[Name] [nvarchar](256) NOT NULL,
+	[Description] [nvarchar](max) NULL,
+	[Origin] [nvarchar](256) NOT NULL,
+	[ThumbnailUrl] [nvarchar](max) NOT NULL,
+	[MadeIn] [nvarchar](256) NOT NULL,
+	[Brand] [nvarchar](256) NOT NULL,
+	[AgeFrom] [int] NOT NULL,
+	[AgeTo] [int] NOT NULL,
+	[Price] [int] NOT NULL,
+	[PromotionPrice] [int] NULL,
+	[ExpireAt] [datetime] NOT NULL,
+	[Quantity] [int] NOT NULL,
+	[Status] [nvarchar](256) NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[ProductCategory]    Script Date: 6/6/2024 8:21:11 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[ProductCategory](
+	[Id] [uniqueidentifier] NOT NULL,
+	[CategoryId] [uniqueidentifier] NOT NULL,
+	[ProductId] [uniqueidentifier] NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[CategoryId] ASC,
+	[ProductId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+INSERT [dbo].[Category] ([Id], [Name]) VALUES (N'af8e9cd9-0f65-4694-9146-b073b8b21fbb', N'Sữa cho bé')
+GO
+INSERT [dbo].[Category] ([Id], [Name]) VALUES (N'afd9e0b4-8ffd-4efb-920d-d5e9defd8323', N'Sữa cho mẹ')
+GO
+INSERT [dbo].[Category] ([Id], [Name]) VALUES (N'6f7d08a7-caec-4bfa-9d36-f43c1f62682b', N'Từ 1 đến 5 tuổi')
+GO
+INSERT [dbo].[Category] ([Id], [Name]) VALUES (N'e350bf96-720e-413c-8429-ccc9c7416ec8', N'Từ 10 đến 12 tuổi')
+GO
+INSERT [dbo].[Category] ([Id], [Name]) VALUES (N'fc32d7fd-f637-4ef9-b915-410e8f26f9dd', N'Từ 3 đến 6 tuổi')
+GO
+INSERT [dbo].[Product] ([Id], [Name], [Description], [Origin], [ThumbnailUrl], [MadeIn], [Brand], [AgeFrom], [AgeTo], [Price], [PromotionPrice], [ExpireAt], [Quantity], [Status]) VALUES (N'cd0d0983-2f09-4b3d-bedc-9bd66672822b', N'Sữa demo', N'avc', N'Việt Nam', N'https://avatar', N'Việt Nam', N'Janglee', 3, 6, 120000, 116000, CAST(N'2025-11-11T00:00:00.000' AS DateTime), 50, N'Active')
+GO
+INSERT [dbo].[ProductCategory] ([Id], [CategoryId], [ProductId]) VALUES (N'31ea8494-7b59-48f6-b4a5-343894b2ed50', N'afd9e0b4-8ffd-4efb-920d-d5e9defd8323', N'cd0d0983-2f09-4b3d-bedc-9bd66672822b')
+GO
+SET ANSI_PADDING ON
+GO
+/****** Object:  Index [UQ__Admin__536C85E4735561D7]    Script Date: 6/6/2024 8:21:11 PM ******/
+ALTER TABLE [dbo].[Admin] ADD UNIQUE NONCLUSTERED 
+(
+	[Username] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+GO
+SET ANSI_PADDING ON
+GO
+/****** Object:  Index [UQ__Category__737584F659252AF7]    Script Date: 6/6/2024 8:21:11 PM ******/
+ALTER TABLE [dbo].[Category] ADD UNIQUE NONCLUSTERED 
+(
+	[Name] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+GO
+SET ANSI_PADDING ON
+GO
+/****** Object:  Index [UQ__Customer__536C85E4231D7B44]    Script Date: 6/6/2024 8:21:11 PM ******/
+ALTER TABLE [dbo].[Customer] ADD UNIQUE NONCLUSTERED 
+(
+	[Username] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+GO
+/****** Object:  Index [UQ__ProductC__3214EC069DC02B41]    Script Date: 6/6/2024 8:21:11 PM ******/
+ALTER TABLE [dbo].[ProductCategory] ADD UNIQUE NONCLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[Customer] ADD  DEFAULT ((0)) FOR [Point]
+GO
+ALTER TABLE [dbo].[Customer] ADD  DEFAULT (getdate()) FOR [CreateAt]
+GO
+ALTER TABLE [dbo].[Feedback] ADD  DEFAULT (getdate()) FOR [CreateAt]
+GO
+ALTER TABLE [dbo].[Order] ADD  DEFAULT ((0)) FOR [IsPayment]
+GO
+ALTER TABLE [dbo].[Order] ADD  DEFAULT (getdate()) FOR [CreateAt]
+GO
+ALTER TABLE [dbo].[Cart]  WITH CHECK ADD FOREIGN KEY([CustomerId])
+REFERENCES [dbo].[Customer] ([Id])
+GO
+ALTER TABLE [dbo].[CartItem]  WITH CHECK ADD FOREIGN KEY([CartId])
+REFERENCES [dbo].[Cart] ([Id])
+GO
+ALTER TABLE [dbo].[CartItem]  WITH CHECK ADD FOREIGN KEY([ProductId])
+REFERENCES [dbo].[Product] ([Id])
+GO
+ALTER TABLE [dbo].[Feedback]  WITH CHECK ADD FOREIGN KEY([CustomerId])
+REFERENCES [dbo].[Customer] ([Id])
+GO
+ALTER TABLE [dbo].[Feedback]  WITH CHECK ADD FOREIGN KEY([OrderId])
+REFERENCES [dbo].[Order] ([Id])
+GO
+ALTER TABLE [dbo].[Order]  WITH CHECK ADD FOREIGN KEY([CustomerId])
+REFERENCES [dbo].[Customer] ([Id])
+GO
+ALTER TABLE [dbo].[OrderDetail]  WITH CHECK ADD FOREIGN KEY([OrderId])
+REFERENCES [dbo].[Order] ([Id])
+GO
+ALTER TABLE [dbo].[OrderDetail]  WITH CHECK ADD FOREIGN KEY([ProductId])
+REFERENCES [dbo].[Product] ([Id])
+GO
+ALTER TABLE [dbo].[ProductCategory]  WITH CHECK ADD FOREIGN KEY([CategoryId])
+REFERENCES [dbo].[Category] ([Id])
+GO
+ALTER TABLE [dbo].[ProductCategory]  WITH CHECK ADD FOREIGN KEY([ProductId])
+REFERENCES [dbo].[Product] ([Id])
+GO
+USE [master]
+GO
+ALTER DATABASE [HappyMilk] SET  READ_WRITE 
+GO

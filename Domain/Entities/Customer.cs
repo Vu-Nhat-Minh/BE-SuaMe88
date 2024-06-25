@@ -7,23 +7,25 @@ public partial class Customer
 {
     public Guid Id { get; set; }
 
-    public string Email { get; set; } = null!;
+    public string Username { get; set; } = null!;
 
     public string Password { get; set; } = null!;
 
-    public string? Phone { get; set; }
-
     public string Name { get; set; } = null!;
 
-    public string? AvatarUrl { get; set; }
+    public string? Phone { get; set; }
 
-    public string Rank { get; set; } = null!;
+    public string? Address { get; set; }
+
+    public int Point { get; set; }
 
     public string Status { get; set; } = null!;
 
+    public DateTime CreateAt { get; set; }
+
     public virtual ICollection<Feedback> Feedbacks { get; set; } = new List<Feedback>();
 
-    public virtual ICollection<OrderTransaction> OrderTransactions { get; set; } = new List<OrderTransaction>();
-
     public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
+
+    public virtual ICollection<Transaction> Transactions { get; set; } = new List<Transaction>();
 }
