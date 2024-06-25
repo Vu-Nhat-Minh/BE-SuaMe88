@@ -19,7 +19,7 @@
         public const string RECORD_NOT_FOUND = "Đối tượng không tồn tại";
 
         // Order
-        public const string INVALID_PAYMENT_METHOD = "Phương thức thanh toán không tồn tại hoặc chưa hổ trợ";
+        public const string INVALID_PAYMENT_METHOD = "Phương thức thanh toán không tồn tại hoặc chưa hỗ trợ";
 
         // Voucher
         public const string VOUCHER_NOT_ENOUGH = "Voucher đã hết lượt sử dụng";

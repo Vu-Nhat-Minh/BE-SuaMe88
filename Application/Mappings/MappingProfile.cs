@@ -71,6 +71,7 @@ namespace Application.Mappings
                     VoucherId = x.VoucherId,
                     CreateAt = DateTimeHelper.VnNow,
                 })));
+            CreateMap<OrderStatusUpdateModel, Order>();
 
             // OrderDetail
             CreateMap<OrderDetail, OrderDetailViewModel>();

@@ -53,14 +53,14 @@ namespace Application.Services.Implementations
             {
                 query = query.Where(v => v.To <= filter.To);
             }
-            var TotalRows = query.Count();
+            var totalRows = query.Count();
             var result = await query
                 .ProjectTo<VoucherViewModel>(_mapper.ConfigurationProvider)
                 .Paginate(pagination)
                 .ToListAsync();
             if(result.Count > 0)
             {
-                return result.Ok();
+                return result.ToPaged(pagination, totalRows).Ok();
             }
             return AppErrors.VOUCHER_NOT_EXIST.NotFound();
         }

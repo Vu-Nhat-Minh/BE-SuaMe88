@@ -45,7 +45,6 @@ namespace Application.Services.Implementations
                     .ProjectTo<ProductViewModel>(_mapper.ConfigurationProvider)
                     .Paginate(pagination)
                     .ToListAsync();
-
                 return categories.ToPaged(pagination, totalRows).Ok();
             }
             catch (Exception)

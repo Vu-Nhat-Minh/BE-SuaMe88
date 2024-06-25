@@ -7,9 +7,13 @@ using Data.Repositories.Interfaces;
 using Domain.Constants;
 using Domain.Entities;
 using Domain.Models.Creates;
+using Domain.Models.Filters;
+using Domain.Models.Pagination;
+using Domain.Models.Updates;
 using Domain.Models.Views;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Application.Services.Implementations
 {
@@ -24,6 +28,55 @@ namespace Application.Services.Implementations
             _orderRepository = unitOfWork.Order;
             _productRepository = unitOfWork.Product;
             _voucherRepository = unitOfWork.Voucher;
+        }
+
+        public async Task<IActionResult> GetOrders(OrderFilterModel filter, PaginationRequestModel pagination)
+        {
+            try
+            {
+                var query = _orderRepository.GetAll();
+                if (filter.Receiver != null && !filter.Receiver.IsNullOrEmpty())
+                {
+                    query = query.Where(o => o.Receiver.Equals(filter.Receiver));
+                }
+                if (filter.Phone != null && !filter.Phone.IsNullOrEmpty())
+                {
+                    query = query.Where(o => o.Phone.Equals(filter.Phone));
+                }
+                if (filter.CreateAt != null)
+                {
+                    query = query.Where(o => o.CreateAt.Equals(filter.CreateAt));
+                }
+                if (filter.From != null) {
+                    query = query.Where(o => o.CreateAt > filter.From);
+                }
+                if (filter.To != null)
+                {
+                    query = query.Where(o => o.CreateAt < filter.To);
+                }
+                if (filter.Status != null && !filter.Status.IsNullOrEmpty())
+                {
+                    query = query.Where(o => o.Status.Equals(filter.Status));
+                }
+                if (filter.IsPayment != null)
+                {
+                    query = query.Where(o => o.IsPayment.Equals(filter.IsPayment));
+                }
+                if (filter.CustomerId != null) 
+                {
+                    query = query.Where(o => o.CustomerId.Equals(filter.CustomerId));
+                }
+                var totalRows = query.Count();
+                var result = await query
+                    .ProjectTo<OrderViewModel>(_mapper.ConfigurationProvider)
+                    .Paginate(pagination)
+                    .ToListAsync();
+                return result.ToPaged(pagination, totalRows).Ok();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public async Task<IActionResult> GetOrder(Guid id)
@@ -71,6 +124,32 @@ namespace Application.Services.Implementations
                 return AppErrors.CREATE_FAIL.UnprocessableEntity();
             }
             catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public async Task<IActionResult> UpdateOrderStatus(OrderStatusUpdateModel model) 
+        {
+            try
+            {
+                var order = await _orderRepository
+                    .Where(o => o.Id.Equals(model.Id))
+                    .FirstOrDefaultAsync();
+                if(order == null)
+                {
+                    return AppErrors.RECORD_NOT_FOUND.NotFound();
+                }
+                _mapper.Map(model, order);
+                _orderRepository.Update(order);
+                var result = await _unitOfWork.SaveChangesAsync();
+                if (result > 0)
+                {
+                    return await GetOrder(order.Id);
+                }
+                return AppErrors.UPDATE_FAIL.UnprocessableEntity();
+            }
+            catch (Exception) 
             {
                 throw;
             }
