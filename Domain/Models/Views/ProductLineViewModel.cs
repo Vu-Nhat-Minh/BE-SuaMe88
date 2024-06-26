@@ -4,14 +4,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Models.Creates
+namespace Domain.Models.Views
 {
-    public class ProductLineCreateModel
+    public class ProductLineViewModel
     {
-        public int Quantity { get; set; }
-        public DateTime ImportDate { get; set; }
-        public DateTime ExpiredAt { get; set; }
-        public int PromotionPrice { get; set; }
+        public Guid Id { get; set; }
 
+        public Guid ProductId { get; set; }
+
+        public int Quantity { get; set; }
+
+        public DateTime ImportDate { get; set; }
+
+        public DateTime ExpiredAt { get; set; }
+
+        public int? PromotionPrice { get; set; }
     }
 }

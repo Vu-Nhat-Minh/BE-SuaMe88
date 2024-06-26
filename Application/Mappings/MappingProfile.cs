@@ -53,7 +53,10 @@ namespace Application.Mappings
             CreateMap<ProductCategory, ProductCategoryViewModel>();
 
             //ProductLine
-            CreateMap<ProductLineCreateModel, ProductLine>();
+            CreateMap<ProductLineCreateModel, ProductLine>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => Guid.NewGuid()))
+                .ForMember(dest => dest.ImportDate, opt => opt.MapFrom(src => DateTimeHelper.VnNow));
+            CreateMap<ProductLine, ProductLineViewModel>();
 
             // Order
             CreateMap<Order, OrderViewModel>();

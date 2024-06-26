@@ -4,14 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Models.Creates
+namespace Domain.Models.Updates
 {
-    public class ProductLineCreateModel
+    public class ProductLineUpdateModel
     {
         public int Quantity { get; set; }
-        public DateTime ImportDate { get; set; }
-        public DateTime ExpiredAt { get; set; }
-        public int PromotionPrice { get; set; }
 
+        public DateTime ExpiredAt { get; set; }
+
+        public int? PromotionPrice { get; set; }
     }
 }

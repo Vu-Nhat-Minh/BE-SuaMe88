@@ -12,6 +12,7 @@
         // Product
         public const string INVALID_QUANTITY = "Số lượng phải lớn hơn 0";
         public const string PRODUCT_QUANTITY_NOT_ENOUGH = "Số lượng trong giỏ hàng không được vượt quá số lượng còn lại của sản phẩm.";
+        public const string PRODUCT_INSTOCK_NOT_ENOUGH = "Số lượng sản phẩm không đủ cho đơn hàng";
 
         // Query
         public const string CREATE_FAIL = "Tạo mới thất bại";
