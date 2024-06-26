@@ -2,7 +2,8 @@
 {
     public class VoucherStatuses
     {
-        public const string ACTIVE = "active";
-        public const string INACTIVE = "inactive";
+        public const string ACTIVE = "Active";
+        public const string INACTIVE = "Inactive";
+
     }
 }

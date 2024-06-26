@@ -1,8 +1,8 @@
 ﻿using Application.Services.Interfaces;
 using Common.Extensions;
+using Domain.Models.Creates;
 using Domain.Models.Pagination;
 using Domain.Models.Updates;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Presentation.Controllers
@@ -76,11 +76,11 @@ namespace Presentation.Controllers
         //Test xong xóa
         [HttpPut]
         [Route("reduce")]
-        public async Task<IActionResult> ReduceProductLineQuantity([FromBody]ProductLineQuantityReductionModel model)
+        public async Task<IActionResult> ReduceProductLineQuantity([FromBody]ICollection<OrderDetailCreateModel> models)
         {
             try
             {
-                return await _productLineService.ReduceProductLineQuantity(model);
+                return await _productLineService.ReduceProductLineQuantity(models);
             }
             catch (Exception ex)
             {

@@ -21,9 +21,11 @@ namespace Application.Services.Implementations
     public class ProductService : BaseService, IProductService
     {
         private readonly IProductRepository _productRepository;
-        public ProductService(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper)
+        private readonly ICloudStorageService _cloudStorageService;
+        public ProductService(IUnitOfWork unitOfWork, IMapper mapper, ICloudStorageService cloudStorageService) : base(unitOfWork, mapper)
         {
             _productRepository = unitOfWork.Product;
+            _cloudStorageService = cloudStorageService;
         }
 
         public async Task<IActionResult> GetProducts(ProductFilterModel filter, PaginationRequestModel pagination)
@@ -79,6 +81,10 @@ namespace Application.Services.Implementations
             try
             {
                 var product = _mapper.Map<Product>(model);
+                if (model.Thumbnail != null)
+                {
+                    product.ThumbnailUrl = await _cloudStorageService.Upload(Guid.NewGuid(), model.Thumbnail);
+                }
                 _productRepository.Add(product);
                 var result = await _unitOfWork.SaveChangesAsync();
                 if (result > 0)
@@ -106,6 +112,10 @@ namespace Application.Services.Implementations
                 }
 
                 _mapper.Map(model, product);
+                if (model.Thumbnail != null)
+                {
+                    product.ThumbnailUrl = await _cloudStorageService.Upload(Guid.NewGuid(), model.Thumbnail);
+                }
                 _productRepository.Update(product);
                 var result = await _unitOfWork.SaveChangesAsync();
                 if (result > 0)

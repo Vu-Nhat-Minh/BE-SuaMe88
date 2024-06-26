@@ -110,21 +110,31 @@ namespace Application.Services.Implementations
             }
         }
 
-        public async Task<IActionResult> ReduceProductLineQuantity(ProductLineQuantityReductionModel model)
+        //Temp
+        public async Task<IActionResult> ReduceProductLineQuantity(ICollection<OrderDetailCreateModel> models)
         {
-            try
+            foreach (var model in models)
             {
+                var productLineTarget = new ProductLineQuantityReductionModel
+                {
+                    ProductId = model.ProductId,
+                    Quantity = model.Quantity,
+                };
+
+                // Fetch matching product lines
                 var productLines = await _productLineRepository
-                .Where(pl => !pl.ProductId.Equals(model.productId) && pl.Quantity > 0 && pl.ExpiredAt > DateTimeHelper.VnNow)
-                .OrderBy(pl => pl.ExpiredAt)
-                .ToListAsync();
-                int toReduce = model.quantity;
+                    .Where(pl => pl.ProductId.Equals(productLineTarget.ProductId) && pl.Quantity > 0 && pl.ExpiredAt > DateTimeHelper.VnNow)
+                    .OrderBy(pl => pl.ExpiredAt)
+                    .ToListAsync();
+
+                int toReduce = productLineTarget.Quantity;
                 foreach (var productLine in productLines)
                 {
                     if (toReduce <= 0)
                     {
                         break;
                     }
+
                     if (productLine.Quantity >= toReduce)
                     {
                         productLine.Quantity -= toReduce;
@@ -136,17 +146,15 @@ namespace Application.Services.Implementations
                         productLine.Quantity = 0;
                     }
                 }
+
                 if (toReduce > 0)
                 {
                     return AppErrors.PRODUCT_INSTOCK_NOT_ENOUGH.UnprocessableEntity();
                 }
-                await _unitOfWork.SaveChangesAsync();
-                return "Trừ hàng kho thành công".Ok();
             }
-            catch (Exception)
-            {
-                throw;
-            }
+
+            await _unitOfWork.SaveChangesAsync();
+            return "Trừ hàng kho thành công".Ok();
         }
 
         public async Task<IActionResult> UpdateProductLine(Guid productId, ProductLineUpdateModel model)

@@ -85,6 +85,12 @@ namespace Data
             get { return _productLine ??= new ProductLineRepository(_context); }
         }
 
+        public ITransactionRepository _eTransaction = null!;
+        public ITransactionRepository Transaction
+        {
+            get { return _eTransaction ??= new TransactionRepository(_context); }
+        }
+
         public void BeginTransaction()
         {
             _transaction = _context.Database.BeginTransaction();

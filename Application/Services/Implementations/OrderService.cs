@@ -2,6 +2,7 @@
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Common.Extensions;
+using Common.Helpers;
 using Data;
 using Data.Repositories.Interfaces;
 using Domain.Constants;
@@ -22,12 +23,14 @@ namespace Application.Services.Implementations
         private readonly IOrderRepository _orderRepository;
         private readonly IProductRepository _productRepository;
         private readonly IVoucherRepository _voucherRepository;
+        private readonly IProductLineRepository _productLineRepository;
 
         public OrderService(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper)
         {
             _orderRepository = unitOfWork.Order;
             _productRepository = unitOfWork.Product;
             _voucherRepository = unitOfWork.Voucher;
+            _productLineRepository = unitOfWork.ProductLine;
         }
 
         public async Task<IActionResult> GetOrders(OrderFilterModel filter, PaginationRequestModel pagination)
@@ -114,9 +117,13 @@ namespace Application.Services.Implementations
                     order.IsPayment = false;
                     order.Status = OrderStatuses.PENDING;
                     _orderRepository.Add(order);
+
                     var result = await _unitOfWork.SaveChangesAsync();
                     if (result > 0)
                     {
+                        //Reduce quantity
+                        await ReduceProductLineQuantity(model.OrderDetails);
+
                         await CalculateVoucherQuantity(model);
                         return await GetOrder(order.Id);
                     }
@@ -206,6 +213,53 @@ namespace Application.Services.Implementations
             {
                 throw;
             }
+        }
+
+        //Reduce product line quantity
+        private async Task<IActionResult> ReduceProductLineQuantity(ICollection<OrderDetailCreateModel> models)
+        {
+            foreach (var model in models)
+            {
+                var productLineTarget = new ProductLineQuantityReductionModel
+                {
+                    ProductId = model.ProductId,
+                    Quantity = model.Quantity,
+                };
+
+                // Fetch matching product lines
+                var productLines = await _productLineRepository
+                    .Where(pl => pl.ProductId.Equals(productLineTarget.ProductId) && pl.Quantity > 0 && pl.ExpiredAt > DateTimeHelper.VnNow)
+                    .OrderBy(pl => pl.ExpiredAt)
+                    .ToListAsync();
+
+                int toReduce = productLineTarget.Quantity;
+                foreach (var productLine in productLines)
+                {
+                    if (toReduce <= 0)
+                    {
+                        break;
+                    }
+
+                    if (productLine.Quantity >= toReduce)
+                    {
+                        productLine.Quantity -= toReduce;
+                        toReduce = 0;
+                    }
+                    else
+                    {
+                        toReduce -= productLine.Quantity;
+                        productLine.Quantity = 0;
+                    }
+                }
+
+                if (toReduce > 0)
+                {
+                    return AppErrors.PRODUCT_INSTOCK_NOT_ENOUGH.UnprocessableEntity();
+                }
+            }
+
+            await _unitOfWork.SaveChangesAsync();
+            return "Trừ hàng kho thành công".Ok();
         }
 
         //Old product update

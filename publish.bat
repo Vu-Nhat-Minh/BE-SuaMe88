@@ -3,7 +3,7 @@ REM Đặt các biến môi trường
 setlocal enabledelayedexpansion
 set SOLUTION_DIR=%~dp0
 set PROJECT_DIR=%SOLUTION_DIR%Presentation
-set PUBLISH_PATH=C:\inetpub\wwwroot\be-happy-milk
+set PUBLISH_PATH=C:\inetpub\wwwroot\be-suame88
 
 REM Điều hướng đến thư mục project
 cd /d "%PROJECT_DIR%"

@@ -9,10 +9,15 @@
         public const string USER_NOT_EXIST = "User không tồn tại";
         public const string USERNAME_EXIST = "Username đã tồn tại";
 
+        // Cart
+        public const string CART_NOT_EXIST = "Giỏ hàng không tồn tại";
+
+        // Cart Item
+        public const string CART_ITEM_NOT_EXIST = "Sản phẩm không tồn tại trong giỏ hàng";
+
         // Product
         public const string INVALID_QUANTITY = "Số lượng phải lớn hơn 0";
         public const string PRODUCT_QUANTITY_NOT_ENOUGH = "Số lượng trong giỏ hàng không được vượt quá số lượng còn lại của sản phẩm.";
-        public const string PRODUCT_INSTOCK_NOT_ENOUGH = "Số lượng sản phẩm không đủ cho đơn hàng";
 
         // Query
         public const string CREATE_FAIL = "Tạo mới thất bại";
@@ -20,10 +25,14 @@
         public const string RECORD_NOT_FOUND = "Đối tượng không tồn tại";
 
         // Order
-        public const string INVALID_PAYMENT_METHOD = "Phương thức thanh toán không tồn tại hoặc chưa hỗ trợ";
+        public const string INVALID_PAYMENT_METHOD = "Phương thức thanh toán không tồn tại hoặc chưa hổ trợ";
 
         // Voucher
         public const string VOUCHER_NOT_ENOUGH = "Voucher đã hết lượt sử dụng";
         public const string VOUCHER_NOT_EXIST= "Voucher không tồn tại";
+
+        // Product Line
+        public const string PRODUCT_INSTOCK_NOT_ENOUGH = "Sản phẩm trong kho không đủ";
+
     }
 }

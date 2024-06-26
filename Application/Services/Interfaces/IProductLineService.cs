@@ -11,8 +11,8 @@ namespace Application.Services.Interfaces
          Task<IActionResult> GetProductLines(Guid productId, PaginationRequestModel pagination);
          Task<IActionResult> GetValidProductLines(Guid productId, PaginationRequestModel pagination);
          Task<IActionResult> GetProductLine(Guid id);        
-         Task<IActionResult> ImportProductLine(Guid productId, ProductLineCreateModel model);        
-         Task<IActionResult> ReduceProductLineQuantity(ProductLineQuantityReductionModel model);        
+         Task<IActionResult> ImportProductLine(Guid productId, ProductLineCreateModel model);
+         Task<IActionResult> ReduceProductLineQuantity(ICollection<OrderDetailCreateModel> models);   
          Task<IActionResult> UpdateProductLine(Guid productId, ProductLineUpdateModel model);
     }
 }

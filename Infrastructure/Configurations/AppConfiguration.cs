@@ -1,6 +1,8 @@
 ﻿using Application.Services.Implementations;
 using Application.Services.Interfaces;
 using Data;
+using FirebaseAdmin;
+using Google.Apis.Auth.OAuth2;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
@@ -12,6 +14,7 @@ namespace Infrastructure.Configurations
         public static void AddDependenceInjection(this IServiceCollection services)
         {
             // Service life time DI
+            services.AddScoped<ICloudStorageService, CloudStorageService>();
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<IProductService, ProductService>();
@@ -19,7 +22,8 @@ namespace Infrastructure.Configurations
             services.AddScoped<IOrderService, OrderService>();
             services.AddScoped<IVoucherService, VoucherService>();
             services.AddScoped<IProductLineService, ProductLineService>();
-            
+            services.AddScoped<IVNPayService, VNPayService>();
+
             services.AddTransient<IUnitOfWork, UnitOfWork>();
         }
 
@@ -58,6 +62,14 @@ namespace Infrastructure.Configurations
             });
         }
 
+        public static void AddFirebase(this IServiceCollection services)
+        {
+            var currentDirectory = Directory.GetCurrentDirectory();
+            FirebaseApp.Create(new AppOptions
+            {
+                Credential = GoogleCredential.FromFile(Path.Combine(currentDirectory, "firebase-adminsdk.json")),
+            });
+        }
         public static void UseJwt(this IApplicationBuilder app)
         {
             app.UseMiddleware<JwtMiddleware>();

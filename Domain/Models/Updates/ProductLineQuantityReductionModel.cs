@@ -8,7 +8,7 @@ namespace Domain.Models.Updates
 {
     public class ProductLineQuantityReductionModel
     {
-        public Guid productId { get; set; }
-        public int quantity { get; set; }
+        public Guid ProductId { get; set; }
+        public int Quantity { get; set; }
     }
 }

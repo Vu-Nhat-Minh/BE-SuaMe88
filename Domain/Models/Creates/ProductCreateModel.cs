@@ -5,15 +5,13 @@ namespace Domain.Models.Creates
 {
     public class ProductCreateModel
     {
-        public Guid Id { get; set; }
-
         public string Name { get; set; } = null!;
 
         public string? Description { get; set; }
 
         public string Origin { get; set; } = null!;
 
-        public IFormFile ThumbnailUrl { get; set; } = null!;
+        public IFormFile Thumbnail { get; set; } = null!;
 
         public string MadeIn { get; set; } = null!;
 

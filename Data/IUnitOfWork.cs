@@ -15,6 +15,7 @@ namespace Data
         public IProductRepository Product { get; }
         public IVoucherRepository Voucher { get; }
         public IProductLineRepository ProductLine { get; }
+        public ITransactionRepository Transaction { get; }
 
         void BeginTransaction();
         void Commit();

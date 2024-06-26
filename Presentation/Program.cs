@@ -40,6 +40,7 @@ builder.Services.AddCors(options =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddDependenceInjection();
 builder.Services.AddSwagger();
+builder.Services.AddFirebase();
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 builder.Services.AddSwaggerGen();

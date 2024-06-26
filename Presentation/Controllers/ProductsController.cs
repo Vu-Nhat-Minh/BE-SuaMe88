@@ -46,7 +46,7 @@ namespace Presentation.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateProduct([FromBody] ProductCreateModel model)
+        public async Task<IActionResult> CreateProduct([FromForm] ProductCreateModel model)
         {
             try
             {
@@ -60,7 +60,7 @@ namespace Presentation.Controllers
 
         [HttpPut]
         [Route("{id}")]
-        public async Task<IActionResult> UpdateProduct([FromRoute] Guid id, [FromBody] ProductUpdateModel model)
+        public async Task<IActionResult> UpdateProduct([FromRoute] Guid id, [FromForm] ProductUpdateModel model)
         {
             try
             {
