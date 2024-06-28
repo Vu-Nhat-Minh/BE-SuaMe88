@@ -67,18 +67,6 @@ namespace Application.Services.Implementations
             }
         }
 
-        public async Task CreateAdmin()
-        {
-            var admin = new Admin
-            {
-                Id = Guid.NewGuid(),
-                Username = "Admin" + Guid.NewGuid().ToString(),
-                Password = "SuaMe88"
-            };
-            _adminRepository.Add(admin);
-            await _unitOfWork.SaveChangesAsync();
-        }
-
         public async Task<bool> AddResponse(VnPayResponseModel model)
         {
             try

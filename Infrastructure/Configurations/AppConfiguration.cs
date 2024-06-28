@@ -23,7 +23,7 @@ namespace Infrastructure.Configurations
             services.AddScoped<IVoucherService, VoucherService>();
             services.AddScoped<IProductLineService, ProductLineService>();
             services.AddScoped<IVNPayService, VNPayService>();
-
+            services.AddScoped<IFeedbackService, FeedbackService>();
             services.AddTransient<IUnitOfWork, UnitOfWork>();
         }
 

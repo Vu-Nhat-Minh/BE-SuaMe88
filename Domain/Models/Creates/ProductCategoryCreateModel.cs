@@ -1,4 +1,6 @@
-﻿namespace Domain.Models.Creates
+﻿using Microsoft.AspNetCore.Mvc;
+
+namespace Domain.Models.Creates
 {
     public class ProductCategoryCreateModel
     {

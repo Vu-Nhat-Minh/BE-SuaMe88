@@ -14,15 +14,11 @@ namespace Domain.Models.Views
 
         public string ThumbnailUrl { get; set; } = null!;
 
-        public string MadeIn { get; set; } = null!;
-
         public string Brand { get; set; } = null!;
 
         public int Price { get; set; }
 
         public int? PromotionPrice { get; set; }
-
-        public DateTime ExpireAt { get; set; }
 
         public int Quantity { get; set; }
 
@@ -30,6 +26,6 @@ namespace Domain.Models.Views
 
         public string Status { get; set; } = null!;
 
-        public virtual ICollection<ProductCategoryViewModel> ProductCategories { get; set; } = new List<ProductCategoryViewModel>();
+        public ICollection<ProductCategoryViewModel> ProductCategories { get; set; } = new List<ProductCategoryViewModel>();
     }
 }

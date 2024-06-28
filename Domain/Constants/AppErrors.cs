@@ -34,5 +34,9 @@
         // Product Line
         public const string PRODUCT_INSTOCK_NOT_ENOUGH = "Sản phẩm trong kho không đủ";
 
+        //Feedback
+        public const string NO_COMPLETED_ORDER = "Người dùng chưa hoàn tất đơn hàng nào";
+        public const string FEEDBACK_ALREADY_EXISTS = "Người dùng đã feedback cho sản phẩm";
+
     }
 }

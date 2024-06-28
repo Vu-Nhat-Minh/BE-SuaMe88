@@ -6,6 +6,5 @@ namespace Application.Services.Interfaces
     {
         Task<bool> AddRequest(Guid userId, Guid orderId, VnPayRequestModel model);
         Task<bool> AddResponse(VnPayResponseModel model);
-        Task CreateAdmin();
     }
 }

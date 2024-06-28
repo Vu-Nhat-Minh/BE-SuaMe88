@@ -6,6 +6,7 @@ using Domain.Models.Authentications;
 using Domain.Models.Creates;
 using Domain.Models.Updates;
 using Domain.Models.Views;
+using Google.Apis.Storage.v1;
 
 namespace Application.Mappings
 {
@@ -45,7 +46,7 @@ namespace Application.Mappings
                     Id = Guid.NewGuid(),
                     ProductId = dest.Id,
                     CategoryId = x.CategoryId,
-                })));
+                }).ToList()));
             CreateMap<ProductUpdateModel, Product>()
                 .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
 
@@ -93,6 +94,12 @@ namespace Application.Mappings
             CreateMap<Voucher, VoucherViewModel>();
             CreateMap<VoucherUpdateModel, Voucher>()
                 .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+
+            //Feedback
+            CreateMap<Feedback, FeedbackViewModel>();
+            CreateMap<FeedbackCreateModel, Feedback>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => Guid.NewGuid()))
+                .ForMember(dest => dest.CreateAt, opt => opt.MapFrom(src => DateTimeHelper.VnNow));
         }
     }
 }

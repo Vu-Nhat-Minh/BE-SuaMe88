@@ -13,8 +13,6 @@ namespace Domain.Models.Creates
 
         public IFormFile Thumbnail { get; set; } = null!;
 
-        public string MadeIn { get; set; } = null!;
-
         public string Brand { get; set; } = null!;
 
         public int Price { get; set; }

@@ -47,7 +47,7 @@ namespace Presentation.Controllers
         }
 
         [HttpGet]
-        [Route("geti-all/{id}")]
+        [Route("get-all/{id}")]
         public async Task<IActionResult> GetValidProductLines([FromRoute] Guid id, [FromQuery] PaginationRequestModel pagination)
         {
             try
@@ -73,6 +73,19 @@ namespace Presentation.Controllers
             } 
         }
 
+        [HttpPost]
+        [Route("import/{id}")]
+        public async Task<IActionResult> ImportProductLine([FromRoute] Guid productId, [FromBody] ProductLineCreateModel model)
+        {
+            try
+            {
+                return await _productLineService.ImportProductLine(productId, model);
+            }
+            catch (Exception ex)
+            {
+                return ex.Message.InternalServerError();
+            }
+        }
         //Test xong xóa
         [HttpPut]
         [Route("reduce")]

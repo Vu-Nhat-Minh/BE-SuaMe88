@@ -13,7 +13,10 @@ var allowSpecificOrigins = "_allowSpecificOrigins";
 builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
 var sqlConnectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<SuaMe88Context>(options =>
-        options.UseSqlServer(sqlConnectionString));
+        options.UseSqlServer(sqlConnectionString, builder =>
+        {
+            builder.EnableRetryOnFailure(5, TimeSpan.FromSeconds(10), null);
+        }));
 
 builder.Services.AddControllers();
 builder.Services.AddControllersWithViews()

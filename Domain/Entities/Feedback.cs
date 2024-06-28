@@ -7,7 +7,7 @@ public partial class Feedback
 {
     public Guid Id { get; set; }
 
-    public Guid OrderId { get; set; }
+    public Guid ProductID { get; set; }
 
     public Guid CustomerId { get; set; }
 

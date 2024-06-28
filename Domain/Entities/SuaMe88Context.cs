@@ -102,7 +102,7 @@ public partial class SuaMe88Context : DbContext
                 .HasConstraintName("FK__Feedback__Custom__5FB337D6");
 
             entity.HasOne(d => d.Order).WithMany(p => p.Feedbacks)
-                .HasForeignKey(d => d.OrderId)
+                .HasForeignKey(d => d.ProductID)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__Feedback__OrderI__60A75C0F");
         });

@@ -12,7 +12,6 @@ namespace Domain.Models.Filters
         public Guid? CustomerId { get; set; }
         public string? Phone { get; set; }
         public bool? IsPayment { get; set; }
-        public DateTime? CreateAt { get; set; }
         public string? Status { get; set; }
         public DateTime? From { get; set; }
         public DateTime? To { get; set; }

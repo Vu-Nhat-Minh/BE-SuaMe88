@@ -46,10 +46,6 @@ namespace Application.Services.Implementations
                 {
                     query = query.Where(o => o.Phone.Equals(filter.Phone));
                 }
-                if (filter.CreateAt != null)
-                {
-                    query = query.Where(o => o.CreateAt.Equals(filter.CreateAt));
-                }
                 if (filter.From != null) {
                     query = query.Where(o => o.CreateAt > filter.From);
                 }
