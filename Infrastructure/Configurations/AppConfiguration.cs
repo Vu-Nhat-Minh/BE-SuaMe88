@@ -14,11 +14,12 @@ namespace Infrastructure.Configurations
         public static void AddDependenceInjection(this IServiceCollection services)
         {
             // Service life time DI
+            services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<ICloudStorageService, CloudStorageService>();
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<IProductService, ProductService>();
-            services.AddScoped<ICustomerService, CustomerService>();
+            //services.AddScoped<ICustomerService, CustomerService>();
             services.AddScoped<IOrderService, OrderService>();
             services.AddScoped<IVoucherService, VoucherService>();
             services.AddScoped<IProductLineService, ProductLineService>();
@@ -32,7 +33,7 @@ namespace Infrastructure.Configurations
             services.AddSwaggerGen(c =>
             {
                 c.EnableAnnotations();
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "ASP.Net 8.0 - Happy Milk 88", Description = "APIs Service", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "ASP.Net 8.0 - SuaMe88", Description = "APIs Service", Version = "v1" });
                 c.DescribeAllParametersInCamelCase();
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {

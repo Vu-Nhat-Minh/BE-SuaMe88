@@ -57,6 +57,13 @@ namespace Data
             get { return _admin ??= new AdminRepository(_context); }
         }
 
+        public IStaffRepository _staff = null!;
+
+        public IStaffRepository Staff
+        {
+            get { return _staff ??= new StaffRepository(_context); }
+        }
+
         public ICustomerRepository _customer = null!;
 
         public ICustomerRepository Customer

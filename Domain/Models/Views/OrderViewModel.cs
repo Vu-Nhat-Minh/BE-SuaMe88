@@ -8,8 +8,6 @@
 
         public int Amount { get; set; }
 
-        public int? Discount { get; set; }
-
         public string Receiver { get; set; } = null!;
 
         public string Address { get; set; } = null!;
@@ -22,7 +20,9 @@
 
         public string Status { get; set; } = null!;
 
-        public DateTime CreateAt { get; set; }
+        public DateTime? CreateAt { get; set; }
+
+        public int? Discount { get; set; }
 
         public ICollection<OrderDetailViewModel> OrderDetails { get; set; } = new List<OrderDetailViewModel>();
     }

@@ -74,7 +74,7 @@ namespace Presentation.Controllers
         }
 
         [HttpPost]
-        [Route("import/{id}")]
+        [Route("import/{productId}")]
         public async Task<IActionResult> ImportProductLine([FromRoute] Guid productId, [FromBody] ProductLineCreateModel model)
         {
             try

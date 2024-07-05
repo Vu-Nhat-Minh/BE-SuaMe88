@@ -20,12 +20,14 @@ namespace Domain.Models.Views
 
         public int? PromotionPrice { get; set; }
 
-        public int Quantity { get; set; }
+        public int InStock { get; set; }
 
         public int Sold { get; set; }
 
         public string Status { get; set; } = null!;
 
         public ICollection<ProductCategoryViewModel> ProductCategories { get; set; } = new List<ProductCategoryViewModel>();
+
+        public ICollection<FeedbackViewModel> Feedbacks { get; set; } = new List<FeedbackViewModel>();
     }
 }

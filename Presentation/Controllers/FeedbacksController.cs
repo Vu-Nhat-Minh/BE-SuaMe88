@@ -3,6 +3,7 @@ using Common.Extensions;
 using Domain.Models.Creates;
 using Domain.Models.Filters;
 using Domain.Models.Pagination;
+using Infrastructure.Configurations;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Presentation.Controllers
@@ -19,7 +20,7 @@ namespace Presentation.Controllers
         }
 
         [HttpPost]
-        [Route("get-all")]
+        [Route("filter")]
         public async Task<IActionResult> GetFeedbacks([FromBody]FeedbackFilterModel model, [FromQuery] PaginationRequestModel pagination)
         {
             try
@@ -47,12 +48,15 @@ namespace Presentation.Controllers
         }
 
         [HttpPost]
-        [Route("create/{productId}&{customerId}")]
-        public async Task<IActionResult> CreateFeedback([FromRoute]Guid productId, [FromRoute] Guid customerId, [FromBody] FeedbackCreateModel model)
+        [Route("create/")]
+        [Authorize]
+        public async Task<IActionResult> CreateFeedback([FromBody] FeedbackCreateModel model)
         {
             try
             {
-                return await _feedbackService.CreateFeedback(productId, customerId, model);
+
+                var auth = this.GetAuthenticatedUser();
+                return await _feedbackService.CreateFeedback(auth.Id, model);
             }
             catch (Exception ex)
             {

@@ -5,8 +5,8 @@ namespace Application.Services.Interfaces
 {
     public interface IAuthService
     {
-        Task<IActionResult> CustomerAuthenticate(CertificateModel certificate);
-        Task<IActionResult> GetCustomerInformation(Guid id);
+        Task<IActionResult> Authenticate(CertificateModel certificate);
+        Task<IActionResult> GetInformation(Guid id);
         Task<AuthModel> GetUser(Guid id);
     }
 }

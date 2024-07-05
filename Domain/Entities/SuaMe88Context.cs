@@ -35,6 +35,8 @@ public partial class SuaMe88Context : DbContext
 
     public virtual DbSet<ProductLine> ProductLines { get; set; }
 
+    public virtual DbSet<Staff> Staff { get; set; }
+
     public virtual DbSet<Transaction> Transactions { get; set; }
 
     public virtual DbSet<Voucher> Vouchers { get; set; }
@@ -101,10 +103,10 @@ public partial class SuaMe88Context : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__Feedback__Custom__5FB337D6");
 
-            entity.HasOne(d => d.Order).WithMany(p => p.Feedbacks)
-                .HasForeignKey(d => d.ProductID)
+            entity.HasOne(d => d.Product).WithMany(p => p.Feedbacks)
+                .HasForeignKey(d => d.ProductId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Feedback__OrderI__60A75C0F");
+                .HasConstraintName("FK_Feedback_Product");
         });
 
         modelBuilder.Entity<Order>(entity =>
@@ -218,6 +220,22 @@ public partial class SuaMe88Context : DbContext
                 .HasForeignKey(d => d.ProductId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__ProductLi__Produ__02FC7413");
+        });
+
+        modelBuilder.Entity<Staff>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__Staff__3214EC07A1C82254");
+
+            entity.HasIndex(e => e.Username, "UQ__Staff__536C85E46A1DE519").IsUnique();
+
+            entity.Property(e => e.Id).ValueGeneratedNever();
+            entity.Property(e => e.CreateAt)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
+            entity.Property(e => e.Name).HasMaxLength(256);
+            entity.Property(e => e.Password).HasMaxLength(256);
+            entity.Property(e => e.Status).HasMaxLength(256);
+            entity.Property(e => e.Username).HasMaxLength(256);
         });
 
         modelBuilder.Entity<Transaction>(entity =>

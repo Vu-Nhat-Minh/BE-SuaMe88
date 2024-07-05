@@ -1,0 +1,104 @@
+using Application.Services.Interfaces;
+using Common.Extensions;
+using Domain.Models.Creates;
+using Domain.Models.Filters;
+using Domain.Models.Pagination;
+using Domain.Models.Updates;
+using Microsoft.AspNetCore.Mvc;
+
+namespace Presentation.Controllers
+{
+    [Route("api/customers")]
+    [ApiController]
+    public class CustomersController : ControllerBase
+    {
+        private readonly ICustomerService _customerService;
+        public CustomersController(ICustomerService customerService)
+        {
+            _customerService = customerService;
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateCustomer([FromBody] CustomerCreateModel model)
+        {
+            try
+            {
+                return await _customerService.CreateCustomer(model);
+            }
+            catch (Exception ex)
+            {
+                return ex.Message.InternalServerError();
+            }
+        }
+
+        [HttpGet]
+        [Route("{id}")]
+        public async Task<IActionResult> GetCustomer(Guid id)
+        {
+            try
+            {
+                return await _customerService.GetCustomer(id);
+            }
+            catch (Exception ex)
+            {
+                return ex.Message.InternalServerError();
+            }
+        }
+
+        [HttpPost]
+        [Route("filter")]
+        public async Task<IActionResult> GetCustomers([FromBody] CustomerFilterModel filter, [FromQuery] PaginationRequestModel pagination)
+        {
+            try
+            {
+                return await _customerService.GetCustomers(filter, pagination);
+            }
+            catch (Exception ex)
+            {
+                return ex.Message.InternalServerError();
+            }
+        }
+
+        [HttpPut]
+        [Route("update/{id}")]
+        public async Task<IActionResult> UpdateCustomer([FromRoute] Guid id, CustomerUpdateModel model)
+        {
+            try
+            {
+                return await _customerService.UpdateCustomer(id, model);
+            }
+            catch (Exception ex)
+            {
+                return ex.Message.InternalServerError();
+            }
+        }
+
+        [HttpPatch]
+        [Route("change-password/{id}")]
+        public async Task<IActionResult> ChangePassword([FromRoute] Guid id, [FromBody] PasswordUpdateModel model)
+        {
+            try
+            {
+                return await _customerService.ChangePassword(id, model);
+            }
+            catch (Exception ex)
+            {
+                return ex.Message.InternalServerError();
+            }
+        }
+
+        [HttpPatch]
+        [Route("change-status")]
+        public async Task<IActionResult> ChangeStatus([FromBody] CustomerStatusUpdateModel model)
+        {
+            try
+            {
+                return await _customerService.ChangeStatus(model);
+            }
+            catch (Exception ex)
+            {
+                return ex.Message.InternalServerError();
+            }
+        }
+    }
+}

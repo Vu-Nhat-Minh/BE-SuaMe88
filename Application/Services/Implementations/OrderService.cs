@@ -46,7 +46,8 @@ namespace Application.Services.Implementations
                 {
                     query = query.Where(o => o.Phone.Equals(filter.Phone));
                 }
-                if (filter.From != null) {
+                if (filter.From != null)
+                {
                     query = query.Where(o => o.CreateAt > filter.From);
                 }
                 if (filter.To != null)
@@ -97,33 +98,31 @@ namespace Application.Services.Implementations
         {
             try
             {
+                if(!model.PaymentMethod.Equals(PaymentMethods.VNPAY) && !model.PaymentMethod.Equals(PaymentMethods.CASH))
+                {
+                    return AppErrors.INVALID_PAYMENT_METHOD.UnprocessableEntity();
+                }
                 var voucherInvalids = await CheckValidVoucher(model);
                 if (voucherInvalids.Count() > 0)
                 {
                     return voucherInvalids.BadRequest();
                 }
-                if (model.PaymentMethod.Equals(PaymentMethods.VNPAY))
-                {
-                    return AppErrors.INVALID_PAYMENT_METHOD.BadRequest();
-                }
-                if (model.PaymentMethod.Equals(PaymentMethods.CASH))
-                {
-                    var order = _mapper.Map<Order>(model);
-                    order.CustomerId = customerId;
-                    order.IsPayment = false;
-                    order.Status = OrderStatuses.PENDING;
-                    _orderRepository.Add(order);
+                var order = _mapper.Map<Order>(model);
+                order.CustomerId = customerId;
+                order.IsPayment = false;
+                order.Status = OrderStatuses.PENDING;
+                _orderRepository.Add(order);
 
-                    var result = await _unitOfWork.SaveChangesAsync();
-                    if (result > 0)
-                    {
-                        //Reduce quantity
-                        await ReduceProductLineQuantity(model.OrderDetails);
+                var result = await _unitOfWork.SaveChangesAsync();
+                if (result > 0)
+                {
+                    //Reduce quantity
+                    await ReduceProductLineQuantity(model.OrderDetails);
 
-                        await CalculateVoucherQuantity(model);
-                        return await GetOrder(order.Id);
-                    }
+                    await CalculateVoucherQuantity(model);
+                    return await GetOrder(order.Id);
                 }
+
                 return AppErrors.CREATE_FAIL.UnprocessableEntity();
             }
             catch (Exception)
@@ -257,6 +256,33 @@ namespace Application.Services.Implementations
             await _unitOfWork.SaveChangesAsync();
             return "Trừ hàng kho thành công".Ok();
         }
+
+        //public async Task<IActionResult> PayOrder(Guid id)
+        //{
+        //    try
+        //    {
+        //        var order = await _orderRepository
+        //            .Where(o => o.Id.Equals(id))
+        //            .FirstOrDefaultAsync();
+        //        if(order == null)
+        //        {
+        //            return AppErrors.RECORD_NOT_FOUND.NotFound();
+        //        }
+        //        order.Status = OrderStatuses.PAID;
+        //        _orderRepository.Update(order);
+        //        var result = await _unitOfWork.SaveChangesAsync();
+        //        if(result > 0)
+        //        {
+        //            string noti = "Order " + order.Id + " paid.";
+        //            return noti.Ok();
+        //        }
+        //        return AppErrors.UPDATE_FAIL.UnprocessableEntity();
+        //    }
+        //    catch (Exception)
+        //    {
+        //        throw;
+        //    }
+        //}
 
         //Old product update
         //private async Task CalculateProductQuantity(Order order)

@@ -22,10 +22,12 @@ namespace Application.Services.Implementations
     {
         private readonly IProductRepository _productRepository;
         private readonly ICloudStorageService _cloudStorageService;
+        private readonly IProductLineRepository _productLineRepository;
         public ProductService(IUnitOfWork unitOfWork, IMapper mapper, ICloudStorageService cloudStorageService) : base(unitOfWork, mapper)
         {
             _productRepository = unitOfWork.Product;
             _cloudStorageService = cloudStorageService;
+            _productLineRepository = unitOfWork.ProductLine;
         }
 
         public async Task<IActionResult> GetProducts(ProductFilterModel filter, PaginationRequestModel pagination)

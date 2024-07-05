@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Constants
 {
-    public class CustomerStatuses
+    public class StaffStatuses
     {
         public const string ACTIVE = "Active";
         public const string INACTIVE = "Inactive";

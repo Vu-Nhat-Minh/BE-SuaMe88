@@ -7,7 +7,7 @@ public partial class Feedback
 {
     public Guid Id { get; set; }
 
-    public Guid ProductID { get; set; }
+    public Guid ProductId { get; set; }
 
     public Guid CustomerId { get; set; }
 
@@ -19,5 +19,5 @@ public partial class Feedback
 
     public virtual Customer Customer { get; set; } = null!;
 
-    public virtual Order Order { get; set; } = null!;
+    public virtual Product Product { get; set; } = null!;
 }

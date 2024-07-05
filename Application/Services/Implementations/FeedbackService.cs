@@ -40,21 +40,21 @@ namespace Application.Services.Implementations
             try
             {
                 var query = _feedbackRepository.GetAll();
-                if (filter.Id != null)
+                if (filter.ProductId != null)
                 {
-                    query = query.Where(fb => fb.Id.Equals(filter.Id));
-                }
-                if (filter.ProductID != null)
-                {
-                    query = query.Where(fb => fb.ProductID.Equals(filter.ProductID));
+                    query = query.Where(fb => fb.ProductId.Equals(filter.ProductId));
                 }
                 if (filter.CustomerId != null)
                 {
                     query = query.Where(fb => fb.CustomerId.Equals(filter.CustomerId));
                 }
-                if (filter.CreateAt != null)
+                if (filter.From != null)
                 {
-                    query = query.Where(fb => fb.CreateAt.Date.Equals(filter.CreateAt));
+                    query = query.Where(fb => fb.CreateAt.Date > filter.From);
+                }
+                if (filter.To != null)
+                {
+                    query = query.Where(fb => fb.CreateAt.Date > filter.To);
                 }
                 var totalRow = query.Count();
                 var feedbacks = await query
@@ -88,20 +88,20 @@ namespace Application.Services.Implementations
             }
         }
 
-        public async Task<IActionResult> CreateFeedback(Guid productId, Guid customerId, FeedbackCreateModel model)
+        public async Task<IActionResult> CreateFeedback(Guid customerId, FeedbackCreateModel model)
         {
             try
             {
-                if(!HasCompletedOrder(customerId, productId).Result)
+                if(!HasCompletedOrder(customerId, model.productId).Result)
                 {
                     return AppErrors.NO_COMPLETED_ORDER.UnprocessableEntity();
                 }
-                if (HasFeedback(customerId, productId).Result) 
+                if (HasFeedback(customerId, model.productId).Result) 
                 {
                     return AppErrors.FEEDBACK_ALREADY_EXISTS.UnprocessableEntity();
                 }
                 var feedback = _mapper.Map<Feedback>(model);
-                feedback.ProductID = productId;
+                feedback.ProductId = model.productId;
                 feedback.CustomerId = customerId;
                 _feedbackRepository.Add(feedback);
                 var result = await _unitOfWork.SaveChangesAsync();
@@ -142,7 +142,7 @@ namespace Application.Services.Implementations
             try 
             {
                 return await _feedbackRepository
-                    .Where(fb => fb.CustomerId.Equals(customerId) && fb.ProductID.Equals(productId))
+                    .Where(fb => fb.CustomerId.Equals(customerId) && fb.ProductId.Equals(productId))
                     .AnyAsync();
             }
             catch (Exception) 

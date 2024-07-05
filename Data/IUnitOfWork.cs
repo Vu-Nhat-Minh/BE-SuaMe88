@@ -11,6 +11,7 @@ namespace Data
         public IOrderDetailRepository OrderDetail { get; }
         public IFeedbackRepository Feedback { get; }
         public IAdminRepository Admin { get; }
+        public IStaffRepository Staff { get; }
         public ICustomerRepository Customer { get; }
         public IProductRepository Product { get; }
         public IVoucherRepository Voucher { get; }

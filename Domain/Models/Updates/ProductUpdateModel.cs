@@ -18,8 +18,6 @@ namespace Domain.Models.Updates
 
         public int? PromotionPrice { get; set; }
 
-        public int? Quantity { get; set; }
-
         public string? Status { get; set; }
     }
 }

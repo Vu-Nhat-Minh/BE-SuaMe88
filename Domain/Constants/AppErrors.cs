@@ -4,10 +4,15 @@
     {
         public const string INVALID_CERTIFICATE = "Tài khoản hoặc mật khẩu không đúng";
         public const string INVALID_USER_UNACTIVE = "User không còn hoạt động";
+        public const string NO_CHANGE = "Không có thay đổi trong dữ liệu được cung cấp";
 
         // User
         public const string USER_NOT_EXIST = "User không tồn tại";
         public const string USERNAME_EXIST = "Username đã tồn tại";
+        public const string WRONG_PASSWORD = "Sai mật khẩu cũ";
+        public const string SAME_PASSOWRD = "Mật khẩu cũ và mới trung nhau";
+        public const string SAME_STATUS = "Không có thay đổi trong trạng thái";
+        public const string INVALID_STATUS = "Trạng thái không hợp lệ";
 
         // Cart
         public const string CART_NOT_EXIST = "Giỏ hàng không tồn tại";

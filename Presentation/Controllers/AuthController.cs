@@ -18,12 +18,11 @@ namespace Presentation.Controllers
         }
 
         [HttpPost]
-        [Route("customers")]
-        public async Task<IActionResult> CustomerAuthenticate([FromBody] CertificateModel certificate)
+        public async Task<IActionResult> Authenticate([FromBody] CertificateModel certificate)
         {
             try
             {
-                return await _authService.CustomerAuthenticate(certificate);
+                return await _authService.Authenticate(certificate);
             }
             catch (Exception e)
             {
@@ -32,14 +31,14 @@ namespace Presentation.Controllers
         }
 
         [HttpPost]
-        [Route("customers/sign-in-with-token")]
-        [Authorize(UserRoles.CUSTOMER)]
-        public async Task<IActionResult> GetAdminInformation()
+        [Route("sign-in-with-token")]
+        [Authorize]
+        public async Task<IActionResult> GetInformation()
         {
             try
             {
                 var auth = this.GetAuthenticatedUser();
-                return await _authService.GetCustomerInformation(auth.Id);
+                return await _authService.GetInformation(auth.Id);
             }
             catch (Exception e)
             {

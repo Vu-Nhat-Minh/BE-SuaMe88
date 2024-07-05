@@ -22,6 +22,20 @@ namespace Application.Mappings
 
             // Auth
             CreateMap<Customer, AuthModel>();
+            CreateMap<Admin, AuthModel>();
+            CreateMap<Staff, AuthModel>();
+
+            // Admin
+            CreateMap<Admin, AdminViewModel>();
+
+            // Staff
+            CreateMap<Staff, StaffViewModel>();
+            CreateMap<StaffCreateModel, Staff>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => Guid.NewGuid()))
+                .ForMember(dest => dest.CreateAt, opt => opt.MapFrom(src => DateTimeHelper.VnNow))
+                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => UserStatuses.ACTIVE));
+            CreateMap<StaffUpdateModel, Staff>()
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name));
 
             // Customer
             CreateMap<Customer, CustomerViewModel>();
@@ -30,13 +44,16 @@ namespace Application.Mappings
                 .ForMember(dest => dest.Point, opt => opt.MapFrom(src => 0))
                 .ForMember(dest => dest.Status, opt => opt.MapFrom(src => UserStatuses.ACTIVE))
                 .ForMember(dest => dest.CreateAt, opt => opt.MapFrom(src => DateTimeHelper.VnNow));
-
+            CreateMap<CustomerUpdateModel, Customer>();
             // Category
             CreateMap<Category, CategoryViewModel>();
 
             // Product
             CreateMap<Product, ProductViewModel>()
-                .ForMember(dest => dest.Sold, opt => opt.MapFrom(src => src.OrderDetails.Sum(x => x.Quantity)));
+                .ForMember(dest => dest.Sold, opt => opt.MapFrom(src => src.OrderDetails.Sum(x => x.Quantity)))
+                .ForMember(dest => dest.InStock, opt => opt.MapFrom(src => src.ProductLines.Sum(x => x.Quantity)))
+                .ForMember(dest => dest.Feedbacks, opt => opt.MapFrom(src => src.Feedbacks));
+                
             CreateMap<ProductCreateModel, Product>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => Guid.NewGuid()))
                 .ForMember(dest => dest.Status, opt => opt.MapFrom(src => ProductStatuses.ACTIVE))

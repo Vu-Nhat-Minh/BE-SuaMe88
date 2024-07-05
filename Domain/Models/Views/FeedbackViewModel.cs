@@ -14,7 +14,6 @@ namespace Domain.Models.Views
         public string? Message { get; set; }
         public int Star { get; set; }
         public DateTime CreateAt { get; set; }
-        public virtual Customer Customer { get; set; } = null!;
-        public virtual Product Product { get; set; } = null!;
+        public virtual CustomerViewModel Customer { get; set; } = null!;
     }
 }
