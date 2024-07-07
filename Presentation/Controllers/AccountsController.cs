@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Presentation.Controllers
 {
-    [Route("api/Accounts")]
+    [Route("api/accounts")]
     [ApiController]
     public class AccountsController : ControllerBase
     {
@@ -20,8 +20,49 @@ namespace Presentation.Controllers
             _accountService = accountService;
         }
 
-        
         [HttpPost]
+        [Route("admins")]
+        public async Task<IActionResult> CreateAdmin([FromBody] AdminCreateModel model)
+        {
+            try
+            {
+                return await _accountService.CreateAdmin(model);
+            }
+            catch (Exception ex)
+            {
+                return ex.Message.InternalServerError();
+            }
+        }
+
+        [HttpPost]
+        [Route("admins/filter")]
+        public async Task<IActionResult> GetAdmins([FromBody] AdminFilterModel model, [FromQuery] PaginationRequestModel pagination)
+        {
+            try
+            {
+                return await _accountService.GetAdmins(model, pagination);
+            }
+            catch (Exception ex)
+            {
+                return ex.Message.InternalServerError();
+            }
+        }
+
+        [HttpGet]
+        [Route("admins/{id}")]
+        public async Task<IActionResult> CreateAdmin([FromRoute] Guid id)
+        {
+            try
+            {
+                return await _accountService.GetAdmin(id);
+            }
+            catch (Exception ex)
+            {
+                return ex.Message.InternalServerError();
+            }
+        }
+
+            [HttpPost]
         [Route("customers")]
         public async Task<IActionResult> CreateCustomer([FromBody] CustomerCreateModel model)
         {

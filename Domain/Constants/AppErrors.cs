@@ -22,7 +22,7 @@
 
         // Product
         public const string INVALID_QUANTITY = "Số lượng phải lớn hơn 0";
-        public const string PRODUCT_QUANTITY_NOT_ENOUGH = "Số lượng trong giỏ hàng không được vượt quá số lượng còn lại của sản phẩm.";
+        public const string PRODUCT_QUANTITY_NOT_ENOUGH = "Số lượng trong giỏ hàng không được vượt quá số lượng còn lại của sản phẩm";
 
         // Query
         public const string CREATE_FAIL = "Tạo mới thất bại";
@@ -40,8 +40,9 @@
         public const string PRODUCT_INSTOCK_NOT_ENOUGH = "Sản phẩm trong kho không đủ";
 
         //Feedback
-        public const string NO_COMPLETED_ORDER = "Người dùng chưa hoàn tất đơn hàng nào";
-        public const string FEEDBACK_ALREADY_EXISTS = "Người dùng đã feedback cho sản phẩm";
+        public const string NO_COMPLETED_ORDER = "Customer has not purchased the product";
+        public const string FEEDBACK_ALREADY_EXISTS = "Customer has already given a feedback";
+        public const string INVALID_STAR_RATING = "Invalid ratings (0 < Star < 5)";
 
     }
 }

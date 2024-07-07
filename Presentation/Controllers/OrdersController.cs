@@ -64,6 +64,7 @@ namespace Presentation.Controllers
         }
 
         [HttpPut]
+        [Route("status")]
         public async Task<IActionResult> UpdateOrderStatus([FromBody] OrderStatusUpdateModel model)
         {
             try
@@ -71,6 +72,34 @@ namespace Presentation.Controllers
                 return await _orderService.UpdateOrderStatus(model);
             }
             catch (Exception ex) 
+            {
+                return ex.Message.InternalServerError();
+            }
+        }
+
+        [HttpPut]
+        [Route("confirm")]
+        public async Task<IActionResult> ConfirmOrder([FromQuery] Guid orderId)
+        {
+            try
+            {
+                return await _orderService.ConfirmOrder(orderId);
+            }
+            catch (Exception ex)
+            {
+                return ex.Message.InternalServerError();
+            }
+        }
+
+        [HttpPut]
+        [Route("cancel")]
+        public async Task<IActionResult> CancelOrder([FromQuery] Guid orderId)
+        {
+            try
+            {
+                return await _orderService.CancelOrder(orderId);
+            }
+            catch (Exception ex)
             {
                 return ex.Message.InternalServerError();
             }

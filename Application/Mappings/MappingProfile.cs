@@ -7,6 +7,7 @@ using Domain.Models.Creates;
 using Domain.Models.Updates;
 using Domain.Models.Views;
 using Google.Apis.Storage.v1;
+using Microsoft.EntityFrameworkCore.Update.Internal;
 
 namespace Application.Mappings
 {
@@ -50,13 +51,17 @@ namespace Application.Mappings
 
             // Product
             CreateMap<Product, ProductViewModel>()
-                .ForMember(dest => dest.Sold, opt => opt.MapFrom(src => src.OrderDetails.Sum(x => x.Quantity)))
-                .ForMember(dest => dest.InStock, opt => opt.MapFrom(src => src.ProductLines.Sum(x => x.Quantity)))
-                .ForMember(dest => dest.Feedbacks, opt => opt.MapFrom(src => src.Feedbacks));
-                
+                .ForMember(dest => dest.InStock, opt => opt.MapFrom(src => src.ProductLines.Where(x => x.ExpiredAt > DateTimeHelper.VnNow).Sum(x => x.Quantity)))
+                .ForMember(dest => dest.Feedbacks, opt => opt.MapFrom(src => src.Feedbacks))
+                .ForMember(dest => dest.Rating, opt => opt.MapFrom(src => src.Feedbacks.Any() ? Math.Round(src.Feedbacks.Average(f => (double)f.Star), 1) : 0))
+                //.ForMember(dest => dest.Sold, opt => opt.MapFrom(src => src.OrderDetails.Sum(x => x.Quantity)));
+                .ForMember(dest => dest.Sold, opt => opt.MapFrom(src =>
+                src.OrderDetails.Where(od => od.Order.Status.Equals(OrderStatuses.COMPLETED)).Sum(od => od.Quantity)));
+
             CreateMap<ProductCreateModel, Product>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => Guid.NewGuid()))
                 .ForMember(dest => dest.Status, opt => opt.MapFrom(src => ProductStatuses.ACTIVE))
+                //.ForMember(dest => dest.MadeIn, opt => opt.MapFrom(src => src.Origin))
                 .ForMember(dest => dest.ProductCategories, opt => opt.MapFrom((src, dest) => src.ProductCategories.Select(x =>
                 new ProductCategory
                 {
@@ -67,6 +72,12 @@ namespace Application.Mappings
             CreateMap<ProductUpdateModel, Product>()
                 .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
 
+            CreateMap<Product, ProductRevenueViewModel>()
+                .ForMember(dest => dest.Sold, opt => opt.MapFrom(src =>
+                src.OrderDetails.Where(od => od.Order.Status.Equals(OrderStatuses.COMPLETED)).Sum(od => od.Quantity)))
+                .ForMember(dest => dest.Revenue, opt => opt.MapFrom(src =>
+                src.OrderDetails.Where(od => od.Order.Status.Equals(OrderStatuses.COMPLETED)).Sum(od => od.Price)));
+
             // Product Category
             CreateMap<ProductCategory, ProductCategoryViewModel>();
 
@@ -74,7 +85,17 @@ namespace Application.Mappings
             CreateMap<ProductLineCreateModel, ProductLine>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => Guid.NewGuid()))
                 .ForMember(dest => dest.ImportDate, opt => opt.MapFrom(src => DateTimeHelper.VnNow));
-            CreateMap<ProductLine, ProductLineViewModel>();
+            CreateMap<ProductLine, ProductLineViewModel>()
+                .ForMember(dest => dest.ImportDate, opt => opt.MapFrom(src => src.ImportDate.ToString("dd/MM/yyyy")))
+                .ForMember(dest => dest.ExpiredAt, opt => opt.MapFrom(src => src.ExpiredAt.ToString("dd/MM/yyyy")));
+            CreateMap<ProductLineUpdateModel, ProductLine>();
+
+            //ProductLineChange
+            CreateMap<ProductLineChange, ProductLineChangeViewModel>()
+                .ForMember(dest => dest.CreateAt, opt => opt.MapFrom(src => src.CreateAt.ToString("dd/MM/yyyy")));
+            CreateMap<ProductLineChangeCreateModel, ProductLineChange>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => Guid.NewGuid()))
+                .ForMember(dest => dest.CreateAt, opt => opt.MapFrom(src => DateTimeHelper.VnNow));
 
             // Order
             CreateMap<Order, OrderViewModel>();

@@ -25,6 +25,7 @@ namespace Infrastructure.Configurations
             services.AddScoped<IProductLineService, ProductLineService>();
             services.AddScoped<IVNPayService, VNPayService>();
             services.AddScoped<IFeedbackService, FeedbackService>();
+            services.AddScoped<IStatisticService, StatisticsService>();
             services.AddTransient<IUnitOfWork, UnitOfWork>();
         }
 

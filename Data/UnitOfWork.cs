@@ -92,6 +92,13 @@ namespace Data
             get { return _productLine ??= new ProductLineRepository(_context); }
         }
 
+        public IProductLineChangeRepository _productLineChange = null!;
+
+        public IProductLineChangeRepository ProductLineChange
+        {
+            get { return _productLineChange ??= new ProductLineChangeRepository(_context); }
+        }
+
         public ITransactionRepository _eTransaction = null!;
         public ITransactionRepository Transaction
         {

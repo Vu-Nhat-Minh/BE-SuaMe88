@@ -54,7 +54,6 @@ namespace Presentation.Controllers
         {
             try
             {
-
                 var auth = this.GetAuthenticatedUser();
                 return await _feedbackService.CreateFeedback(auth.Id, model);
             }
@@ -63,5 +62,23 @@ namespace Presentation.Controllers
                 return ex.Message.InternalServerError();
             }
         }
+
+        [HttpGet]
+        [Route("check/{productId}")]
+        [Authorize]
+        public async Task<IActionResult> HasFeedback([FromRoute] Guid productId)
+        {
+            try
+            {
+                var auth = this.GetAuthenticatedUser();
+                bool result = await _feedbackService.HasFeedback(auth.Id, productId);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return ex.Message.InternalServerError();
+            }
+        }
+
     }
 }

@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace Domain.Models.Creates
 {
-    public class ProductLineCreateModel
+    public class ProductLineChangeCreateModel
     {
+        public Guid ProductLineId { get; set; }
         public int Quantity { get; set; }
-        public DateTime ImportDate { get; set; }
-        public DateTime ExpiredAt { get; set; }
-        public int PromotionPrice { get; set; }
+        public string Purpose { get; set; }
+        public string IsImport { get; set; }
     }
 }

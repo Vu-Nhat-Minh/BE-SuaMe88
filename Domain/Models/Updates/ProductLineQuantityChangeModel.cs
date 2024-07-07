@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Models.Updates
 {
-    public class ProductLineQuantityReductionModel
+    public class ProductLineQuantityChangeModel
     {
         public Guid ProductId { get; set; }
         public int Quantity { get; set; }

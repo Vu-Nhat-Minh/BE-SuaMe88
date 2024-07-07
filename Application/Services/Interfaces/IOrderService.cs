@@ -1,4 +1,5 @@
-﻿using Domain.Models.Creates;
+﻿using Domain.Entities;
+using Domain.Models.Creates;
 using Domain.Models.Filters;
 using Domain.Models.Pagination;
 using Domain.Models.Updates;
@@ -12,5 +13,7 @@ namespace Application.Services.Interfaces
         Task<IActionResult> GetOrders(OrderFilterModel filter, PaginationRequestModel pagination);
         Task<IActionResult> GetOrder(Guid id);
         Task<IActionResult> UpdateOrderStatus(OrderStatusUpdateModel model);
+        Task<IActionResult> ConfirmOrder(Guid id);
+        Task<IActionResult> CancelOrder(Guid id);
     }
 }

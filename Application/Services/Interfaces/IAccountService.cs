@@ -20,5 +20,8 @@ namespace Application.Services.Interfaces
         Task<IActionResult> ChangeStaffStatus(StaffStatusUpdateModel model);
         Task<IActionResult> CreateStaff(StaffCreateModel model);
         Task<IActionResult> ChangeStaffPassword(Guid id, PasswordUpdateModel model);
+        Task<IActionResult> CreateAdmin(AdminCreateModel model);
+        Task<IActionResult> GetAdmin(Guid id);
+        Task<IActionResult> GetAdmins(AdminFilterModel model, PaginationRequestModel pagination);
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Domain.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,9 +13,11 @@ namespace Domain.Models.Views
 
         public Guid ProductId { get; set; }
 
-        public DateTime ImportDate { get; set; }
+        public string? ImportDate { get; set; }
 
-        public DateTime ExpiredAt { get; set; }
+        public string? ExpiredAt { get; set; }
+
+        public int Quantity { get; set; }
 
         public int? PromotionPrice { get; set; }
     }

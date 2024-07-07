@@ -35,6 +35,8 @@ public partial class SuaMe88Context : DbContext
 
     public virtual DbSet<ProductLine> ProductLines { get; set; }
 
+    public virtual DbSet<ProductLineChange> ProductLineChanges { get; set; }
+
     public virtual DbSet<Staff> Staff { get; set; }
 
     public virtual DbSet<Transaction> Transactions { get; set; }
@@ -220,6 +222,22 @@ public partial class SuaMe88Context : DbContext
                 .HasForeignKey(d => d.ProductId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__ProductLi__Produ__02FC7413");
+        });
+
+        modelBuilder.Entity<ProductLineChange>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__ProductL__3214EC074A607A97");
+
+            entity.ToTable("ProductLineChange");
+
+            entity.Property(e => e.Id).ValueGeneratedNever();
+            entity.Property(e => e.CreateAt).HasColumnType("datetime");
+            entity.Property(e => e.Purpose).HasMaxLength(256);
+
+            entity.HasOne(d => d.ProductLine).WithMany(p => p.ProductLineChanges)
+                .HasForeignKey(d => d.ProductLineId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__ProductLi__Produ__4F47C5E3");
         });
 
         modelBuilder.Entity<Staff>(entity =>

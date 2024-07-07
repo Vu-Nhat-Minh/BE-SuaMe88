@@ -26,6 +26,8 @@ namespace Domain.Models.Views
 
         public string Status { get; set; } = null!;
 
+        public double Rating { get; set; }
+
         public ICollection<ProductCategoryViewModel> ProductCategories { get; set; } = new List<ProductCategoryViewModel>();
 
         public ICollection<FeedbackViewModel> Feedbacks { get; set; } = new List<FeedbackViewModel>();

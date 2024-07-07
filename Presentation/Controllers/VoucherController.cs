@@ -18,7 +18,7 @@ namespace Presentation.Controllers
             _voucherService = voucherService;
         }
 
-        [HttpPost]
+        [HttpPost]  
         [Route("filter")]
         public async Task<IActionResult> GetVouchers([FromBody]VoucherFilterModel filter, [FromQuery] PaginationRequestModel pagination)
         {

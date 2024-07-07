@@ -91,6 +91,7 @@ namespace Application.Services.Implementations
                         if (order != null)
                         {
                             order.Status = OrderStatuses.PAID;
+                            order.IsPayment = true;
                             _orderRepository.Update(order);
                         }
 

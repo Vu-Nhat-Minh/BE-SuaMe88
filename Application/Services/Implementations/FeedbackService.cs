@@ -50,11 +50,11 @@ namespace Application.Services.Implementations
                 }
                 if (filter.From != null)
                 {
-                    query = query.Where(fb => fb.CreateAt.Date > filter.From);
+                    query = query.Where(fb => fb.CreateAt.Date >= filter.From);
                 }
                 if (filter.To != null)
                 {
-                    query = query.Where(fb => fb.CreateAt.Date > filter.To);
+                    query = query.Where(fb => fb.CreateAt.Date <= filter.To);
                 }
                 var totalRow = query.Count();
                 var feedbacks = await query
@@ -92,6 +92,10 @@ namespace Application.Services.Implementations
         {
             try
             {
+                if(model.Star > 5 && model.Star < 1)
+                {
+                    return AppErrors.INVALID_STAR_RATING.UnprocessableEntity();
+                }
                 if(!HasCompletedOrder(customerId, model.productId).Result)
                 {
                     return AppErrors.NO_COMPLETED_ORDER.UnprocessableEntity();
@@ -137,7 +141,7 @@ namespace Application.Services.Implementations
         }
 
         //Check if a customer has already given feedback to a product
-        private async Task<bool> HasFeedback(Guid customerId, Guid productId)
+        public async Task<bool> HasFeedback(Guid customerId, Guid productId)
         {
             try 
             {

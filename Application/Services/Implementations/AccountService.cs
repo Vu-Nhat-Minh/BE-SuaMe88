@@ -394,6 +394,84 @@ namespace Application.Services.Implementations
             }
         }
 
+        public async Task<IActionResult> GetAdmins(AdminFilterModel model, PaginationRequestModel pagination)
+        {
+            try
+            {
+
+                var query = _adminRepository.GetAll();
+                if (model.Username != null && !model.Username.IsNullOrEmpty())
+                {
+                    query = query.Where(a => a.Username.Contains(model.Username));
+                }
+                var totalRow = query.Count();
+                var results = await query
+                    .ProjectTo<AdminViewModel>(_mapper.ConfigurationProvider)
+                    .Paginate(pagination)
+                    .ToListAsync();
+                return results.ToPaged(pagination, totalRow).Ok();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public async Task<IActionResult> GetAdmin(Guid id)
+        {
+            try
+            {
+                var admin = await _adminRepository
+                    .Where(a => a.Id.Equals(id))
+                    .ProjectTo<AdminViewModel>(_mapper.ConfigurationProvider)
+                    .FirstOrDefaultAsync();
+                if (admin == null)
+                {
+                    return AppErrors.RECORD_NOT_FOUND.NotFound();
+                }
+                return admin.Ok();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public async Task<IActionResult> CreateAdmin(AdminCreateModel model)
+        {
+            try
+            {
+                if (IsAdminExisting(model.Username))
+                {
+                    return AppErrors.USERNAME_EXIST.UnprocessableEntity();
+                }
+                var admin = _mapper.Map<Admin>(model);
+                _adminRepository.Add(admin);
+                var result = await _unitOfWork.SaveChangesAsync();
+                if (result > 0)
+                {
+                    return await GetAdmin(admin.Id);
+                }
+                return AppErrors.CREATE_FAIL.UnprocessableEntity();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        private bool IsAdminExisting(string username)
+        {
+            try
+            {
+                return _adminRepository.Any(x => x.Username.Equals(username));
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
         private bool IsCustomerExists(string username)
         {
             try
